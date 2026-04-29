@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josie — 90-Day Ramp Plan · Cosy Direct</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f7f5f0;
+    --white: #ffffff;
+    --ink: #1c1c1e;
+    --primary: #2d6a4f;
+    --primary-light: #e8f5ee;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --blue: #1d4ed8;
+    --blue-light: #eff6ff;
+    --muted: #6b7280;
+    --border: #e5e0d6;
+    --gold: #b07d2e;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 100px;
+  }
+
+  /* HEADER */
+  .header {
+    margin-bottom: 52px;
+  }
+
+  .brand-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .brand-pill {
+    background: var(--primary);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .brand-date {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  h1 span {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--primary);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 14px;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* CONTEXT BOX */
+  .context-box {
+    background: var(--ink);
+    color: white;
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .context-item {}
+
+  .context-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+
+  .context-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: white;
+    line-height: 1.3;
+  }
+
+  .context-value em {
+    font-style: italic;
+    color: #86efac;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 52px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--ink);
+  }
+
+  /* ROLE BREAKDOWN */
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .role-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+
+  .role-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .role-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .tag-primary { background: var(--primary-light); color: var(--primary); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+  .tag-blue { background: var(--blue-light); color: var(--blue); }
+  .tag-red { background: var(--red-light); color: var(--red); }
+
+  .role-card-title {
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .role-bullets {
+    list-style: none;
+  }
+
+  .role-bullets li {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 4px 0;
+    border-bottom: 1px solid #f3f0ea;
+    line-height: 1.5;
+  }
+
+  .role-bullets li:last-child { border-bottom: none; }
+
+  .role-bullets li::before {
+    content: '· ';
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  .focus-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
+  /* 90 DAY PLAN */
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .phase {
+    background: var(--white);
+    border-right: 1px solid var(--border);
+  }
+
+  .phase:last-child { border-right: none; }
+
+  .phase-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-period {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .phase-1 .phase-period { color: var(--amber); }
+  .phase-2 .phase-period { color: var(--blue); }
+  .phase-3 .phase-period { color: var(--primary); }
+
+  .phase-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    color: var(--ink);
+  }
+
+  .phase-strap {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .phase-body { padding: 16px 20px; }
+
+  .phase-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+
+  .phase-section-label:first-child { margin-top: 0; }
+
+  .phase-tasks {
+    list-style: none;
+  }
+
+  .phase-tasks li {
+    font-size: 12.5px;
+    color: var(--ink);
+    padding: 4px 0;
+    border-bottom: 1px solid #f5f2eb;
+    line-height: 1.45;
+  }
+
+  .phase-tasks li:last-child { border-bottom: none; }
+
+  .phase-tasks li::before {
+    content: '→ ';
+    font-weight: 600;
+    font-size: 11px;
+  }
+
+  .phase-1 .phase-tasks li::before { color: var(--amber); }
+  .phase-2 .phase-tasks li::before { color: var(--blue); }
+  .phase-3 .phase-tasks li::before { color: var(--primary); }
+
+  /* WIN CONDITIONS */
+  .wins {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .win-card {
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+
+  .win-card.green { background: var(--primary-light); border: 1px solid #a7d7bc; }
+  .win-card.gold { background: var(--amber-light); border: 1px solid #fcd34d; }
+
+  .win-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .win-card.green .win-label { color: var(--primary); }
+  .win-card.gold .win-label { color: var(--amber); }
+
+  .win-list {
+    list-style: none;
+  }
+
+  .win-list li {
+    font-size: 13px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    line-height: 1.45;
+  }
+
+  .win-list li:last-child { border-bottom: none; }
+
+  .win-card.green .win-list li::before { content: '✓ '; color: var(--primary); font-weight: 700; }
+  .win-card.gold .win-list li::before { content: '★ '; color: var(--amber); }
+
+  /* BEHAVIOUR TABLE */
+  .behaviour-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  .behaviour-table thead tr {
+    background: var(--ink);
+    color: white;
+  }
+
+  .behaviour-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .behaviour-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #f0ede6;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .behaviour-table tr:last-child td { border-bottom: none; }
+
+  .behaviour-table tr:nth-child(even) td { background: #fbf9f5; }
+
+  .bad { color: var(--red); }
+  .good { color: var(--primary); font-weight: 500; }
+
+  /* QUICK REFERENCE */
+  .quick-ref {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .qr-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+
+  .qr-icon { font-size: 22px; margin-bottom: 8px; }
+
+  .qr-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .qr-detail {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .qr-detail a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  /* CLOSING */
+  .closing {
+    background: var(--ink);
+    color: white;
+    border-radius: 6px;
+    padding: 30px 36px;
+    margin-top: 52px;
+  }
+
+  .closing p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .closing strong {
+    color: #86efac;
+    font-weight: 600;
+  }
+
+  .closing em {
+    font-style: italic;
+    color: white;
+  }
+
+  @media (max-width: 620px) {
+    .context-box, .role-grid, .phases, .wins, .quick-ref { grid-template-columns: 1fr; }
+    .phase { border-right: none; border-bottom: 1px solid var(--border); }
+    h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="brand-bar">
+    <span class="brand-pill">Cosy Direct</span>
+    <span class="brand-date">E-Commerce & Digital Marketing Assistant · April 2026</span>
+  </div>
+  <h1>Josie's<br><span>90-Day Ramp Plan</span></h1>
+  <p class="header-sub">A structured programme to go from day one to indispensable — built directly against the role. Not generic. Not vague. Specific to what Cosy actually needs.</p>
+</div>
+
+<!-- CONTEXT -->
+<div class="context-box">
+  <div class="context-item">
+    <div class="context-label">Role</div>
+    <div class="context-value">E-Commerce & Digital Marketing Assistant</div>
+  </div>
+  <div class="context-item">
+    <div class="context-label">Reports to</div>
+    <div class="context-value">E-Commerce Manager</div>
+  </div>
+  <div class="context-item">
+    <div class="context-label">Contract</div>
+    <div class="context-value"><em>3-month trial</em> · goal: make it permanent</div>
+  </div>
+  <div class="context-item">
+    <div class="context-label">Primary focus</div>
+    <div class="context-value">Email marketing via Klaviyo</div>
+  </div>
+  <div class="context-item">
+    <div class="context-label">Secondary</div>
+    <div class="context-value">PPC, SEO, website, social media</div>
+  </div>
+  <div class="context-item">
+    <div class="context-label">What they care about most</div>
+    <div class="context-value">Attitude, writing, detail, proactivity</div>
+  </div>
+</div>
+
+<!-- SECTION 1: WHAT THE ROLE ACTUALLY IS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">i.</span>
+    <span class="section-title">Understanding what the role actually asks for</span>
+  </div>
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="role-card-header">
+        <span class="role-tag tag-primary">Priority 1</span>
+        <span class="role-card-title">Email Marketing</span>
+      </div>
+      <ul class="role-bullets">
+        <li>Plan, build and send campaigns <span class="focus-badge">CORE</span></li>
+        <li>Manage lists, segments, automations in Klaviyo</li>
+        <li>Write email copy — clearly, without waffle</li>
+        <li>Report on opens, clicks, conversions, revenue</li>
+        <li>Grow the list through sign-up optimisation</li>
+        <li>A/B test subject lines, send times, content</li>
+        <li>Build and refine automated flows <span class="focus-badge">CORE</span></li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header">
+        <span class="role-tag tag-amber">Priority 2</span>
+        <span class="role-card-title">Digital & E-Commerce Support</span>
+      </div>
+      <ul class="role-bullets">
+        <li>Assist with PPC — monitor, manage, report</li>
+        <li>Website housekeeping — prices, product info, content</li>
+        <li>SEO — product descriptions, meta info</li>
+        <li>Analytics — understand behaviour, support reporting</li>
+        <li>Social media — content, scheduling, community</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header">
+        <span class="role-tag tag-blue">What they really want</span>
+        <span class="role-card-title">The Person Behind the Skills</span>
+      </div>
+      <ul class="role-bullets">
+        <li>Detail-obsessed — spots things others miss</li>
+        <li>Writes well: clearly, accurately, no waffle</li>
+        <li>Proactive — flags problems before being asked</li>
+        <li>Organised — manages multiple things at once</li>
+        <li>Comfortable learning new tools fast</li>
+      </ul>
+    </div>
+    <div class="role-card">
+      <div class="role-card-header">
+        <span class="role-tag tag-red">What would end a trial early</span>
+        <span class="role-card-title">Red Flags to Avoid</span>
+      </div>
+      <ul class="role-bullets">
+        <li>Waiting to be told what to do</li>
+        <li>Sloppy copy — typos, vague writing, no voice</li>
+        <li>Not knowing the numbers — open rate? click rate?</li>
+        <li>Sending emails without checking them properly</li>
+        <li>Going quiet when something isn't working</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: 90-DAY PLAN -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">ii.</span>
+    <span class="section-title">The 90-day plan</span>
+  </div>
+  <div class="phases">
+    <div class="phase phase-1">
+      <div class="phase-header">
+        <div class="phase-period">Days 1–30</div>
+        <div class="phase-name">Learn & Map</div>
+        <div class="phase-strap">Understand before you act. Ask every question now — it's still expected.</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-section-label">Klaviyo</div>
+        <ul class="phase-tasks">
+          <li>Complete Klaviyo Academy email fundamentals</li>
+          <li>Audit every existing flow — what's live, what's broken</li>
+          <li>Record baseline metrics: open rate, click rate, RPR</li>
+          <li>Map the full customer segment structure</li>
+        </ul>
+        <div class="phase-section-label">The Business</div>
+        <ul class="phase-tasks">
+          <li>Learn the product range — what sells, what's seasonal</li>
+          <li>Understand the customer: schools, nurseries, buyers</li>
+          <li>Understand the school year calendar and buying cycles</li>
+          <li>Shadow the E-Commerce Manager on every key task</li>
+        </ul>
+        <div class="phase-section-label">Wider Role</div>
+        <ul class="phase-tasks">
+          <li>Get read access to GA4 and Google Ads</li>
+          <li>Review last 6 months of campaigns for patterns</li>
+          <li>Identify the 3 biggest quick wins in the account</li>
+        </ul>
+      </div>
+    </div>
+    <div class="phase phase-2">
+      <div class="phase-header">
+        <div class="phase-period">Days 31–60</div>
+        <div class="phase-name">Fix & Build</div>
+        <div class="phase-strap">Start producing. Fix what's broken, build what's missing.</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-section-label">Email Priority</div>
+        <ul class="phase-tasks">
+          <li>Rebuild or improve Welcome flow</li>
+          <li>Rebuild or improve Abandoned Cart flow</li>
+          <li>Set up Post-Purchase flow if missing</li>
+          <li>Tighten segment structure across the list</li>
+          <li>Run first A/B test on subject lines</li>
+        </ul>
+        <div class="phase-section-label">Campaigns</div>
+        <ul class="phase-tasks">
+          <li>Send at least 2 segmented campaigns</li>
+          <li>Write all copy yourself — don't rely on templates</li>
+          <li>Build a forward-looking school calendar send plan</li>
+        </ul>
+        <div class="phase-section-label">Wider Role</div>
+        <ul class="phase-tasks">
+          <li>Own weekly metrics reporting to manager</li>
+          <li>Make first contribution to website content</li>
+          <li>Draft 2–3 social posts for review</li>
+        </ul>
+      </div>
+    </div>
+    <div class="phase phase-3">
+      <div class="phase-header">
+        <div class="phase-period">Days 61–90</div>
+        <div class="phase-name">Prove & Own</div>
+        <div class="phase-strap">Make the case. Show the numbers. Make the role yours.</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-section-label">Make the Business Case</div>
+        <ul class="phase-tasks">
+          <li>Present before vs. after on key metrics</li>
+          <li>Show revenue directly attributed to email</li>
+          <li>Have all 6 core flows live and working</li>
+          <li>Demonstrate a clear improvement in open or click rate</li>
+        </ul>
+        <div class="phase-section-label">Show Initiative</div>
+        <ul class="phase-tasks">
+          <li>Propose a Q4 email calendar with rationale</li>
+          <li>Identify one thing nobody asked you to fix — and fix it</li>
+          <li>Get Klaviyo certified (free through Academy)</li>
+        </ul>
+        <div class="phase-section-label">Wider Role</div>
+        <ul class="phase-tasks">
+          <li>Be producing social content independently</li>
+          <li>Contribute to an SEO or website task unprompted</li>
+          <li>Be known for catching things before they become problems</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: WIN CONDITIONS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">iii.</span>
+    <span class="section-title">What "exceeding expectations" looks like</span>
+  </div>
+  <div class="wins">
+    <div class="win-card green">
+      <div class="win-label">Minimum to secure the permanent role</div>
+      <ul class="win-list">
+        <li>All 3 core flows live and tested by day 60</li>
+        <li>Baseline metrics documented and improving</li>
+        <li>Manager never has to chase you for anything</li>
+        <li>Copy is clean, accurate, and on-brand every time</li>
+        <li>Weekly reporting delivered without being asked</li>
+        <li>Klaviyo Academy certification completed</li>
+      </ul>
+    </div>
+    <div class="win-card gold">
+      <div class="win-label">What makes the role genuinely yours</div>
+      <ul class="win-list">
+        <li>You present ideas — not just results</li>
+        <li>You spot a revenue opportunity no-one else flagged</li>
+        <li>Your email copy gets commented on positively</li>
+        <li>You've built the school calendar send plan for Q3/Q4</li>
+        <li>You've improved something outside your email brief</li>
+        <li>Your manager is defending you to their manager</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: BEHAVIOUR -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">iv.</span>
+    <span class="section-title">How to behave in the role</span>
+  </div>
+  <table class="behaviour-table">
+    <thead>
+      <tr>
+        <th>Situation</th>
+        <th>❌ What most people do</th>
+        <th>✓ What gets you kept on</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>You don't understand something</td>
+        <td class="bad">Stay quiet and guess</td>
+        <td class="good">Ask immediately and write it down — never ask the same thing twice</td>
+      </tr>
+      <tr>
+        <td>An email metric drops</td>
+        <td class="bad">Wait to see if anyone notices</td>
+        <td class="good">Flag it, explain what you think caused it, propose a fix</td>
+      </tr>
+      <tr>
+        <td>A flow isn't performing</td>
+        <td class="bad">Leave it running as-is</td>
+        <td class="good">Identify the weak point, suggest a test, run it</td>
+      </tr>
+      <tr>
+        <td>You're given a campaign to write</td>
+        <td class="bad">Use the old template and change the words</td>
+        <td class="good">Ask what outcome it needs to drive, write to that</td>
+      </tr>
+      <tr>
+        <td>You finish a task early</td>
+        <td class="bad">Wait for the next one</td>
+        <td class="good">Review what's around you and find something to improve</td>
+      </tr>
+      <tr>
+        <td>You make a mistake</td>
+        <td class="bad">Hope nobody notices</td>
+        <td class="good">Own it, fix it, explain what you've put in place to stop it happening again</td>
+      </tr>
+      <tr>
+        <td>You disagree with an approach</td>
+        <td class="bad">Do it anyway without saying anything</td>
+        <td class="good">Say so once, clearly and professionally, then do it their way</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 5: QUICK REFERENCE -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-num">v.</span>
+    <span class="section-title">Quick reference — tools and numbers to know</span>
+  </div>
+  <div class="quick-ref">
+    <div class="qr-card">
+      <div class="qr-icon">📊</div>
+      <div class="qr-title">Klaviyo benchmarks to know</div>
+      <div class="qr-detail">
+        Open rate: 35–45% (good)<br>
+        Click rate: 2–5% (good)<br>
+        RPR (revenue per recipient): your most important number<br>
+        Unsubscribe rate: keep below 0.2%
+      </div>
+    </div>
+    <div class="qr-card">
+      <div class="qr-icon">🎓</div>
+      <div class="qr-title">Klaviyo Academy</div>
+      <div class="qr-detail">
+        Free certification at <strong>academy.klaviyo.com</strong><br>
+        Start with: Email Marketing Fundamentals<br>
+        Target: certified by end of week 3<br>
+        It signals seriousness — do it early
+      </div>
+    </div>
+    <div class="qr-card">
+      <div class="qr-icon">📅</div>
+      <div class="qr-title">School year buying calendar</div>
+      <div class="qr-detail">
+        Sept: Back to school (biggest)<br>
+        Jan: New term / budget reset<br>
+        Mar/Apr: EYFS and outdoor season<br>
+        June: Pre-summer planning<br>
+        Plan campaigns 4 weeks ahead
+      </div>
+    </div>
+    <div class="qr-card">
+      <div class="qr-icon">✍️</div>
+      <div class="qr-title">Writing rules for Cosy</div>
+      <div class="qr-detail">
+        Short sentences. Active voice.<br>
+        No jargon, no waffle.<br>
+        Lead with benefit, not feature.<br>
+        Always have one clear call to action.<br>
+        Read it aloud before you send it.
+      </div>
+    </div>
+    <div class="qr-card">
+      <div class="qr-icon">🔁</div>
+      <div class="qr-title">The 6 flows to build</div>
+      <div class="qr-detail">
+        1. Welcome series<br>
+        2. Abandoned cart (highest revenue)<br>
+        3. Post-purchase<br>
+        4. Browse abandonment<br>
+        5. Win-back<br>
+        6. Sunset / list clean
+      </div>
+    </div>
+    <div class="qr-card">
+      <div class="qr-icon">🗣️</div>
+      <div class="qr-title">Weekly habits that build trust</div>
+      <div class="qr-detail">
+        Monday: check all flow performance<br>
+        Wednesday: review campaign metrics<br>
+        Friday: send weekly report unprompted<br>
+        Always: flag problems before they're asked about
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <p>The JD says "entry level" — but the role is real, the impact is measurable, and the business is growing fast. <strong>Cosy doesn't need someone who knows everything on day one. They need someone who learns fast, writes well, and gives a damn about the details.</strong> If Josie treats every email like it represents the company — because it does — and every metric as a puzzle to improve rather than a number to report, <em>the trial won't feel like a trial.</em> It'll feel like the start of something.</p>
+</div>
+
+</body>
+</html>
