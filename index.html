@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josie's Cosy Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#f7f5f0;--white:#fff;--ink:#1c1c1e;
+  --green:#2d6a4f;--green-l:#e8f5ee;--green-m:#a7d7bc;
+  --amber:#d97706;--amber-l:#fef3c7;
+  --blue:#1d4ed8;--blue-l:#eff6ff;
+  --purple:#6d28d9;--purple-l:#f5f3ff;
+  --orange:#c2410c;--orange-l:#fff7ed;
+  --red:#dc2626;--red-l:#fef2f2;
+  --muted:#6b7280;--border:#e5e0d6;
+}
+body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.6;min-height:100vh;}
+
+/* NAV */
+.topbar{background:var(--ink);padding:0 32px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:16px;color:white;padding:16px 20px 16px 0;border-right:1px solid rgba(255,255,255,0.15);margin-right:16px;white-space:nowrap;}
+.topbar-brand em{font-style:italic;color:#86efac;}
+.tab-btn{padding:18px 20px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.55);cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;font-family:'Outfit',sans-serif;}
+.tab-btn:hover{color:rgba(255,255,255,0.85);}
+.tab-btn.active{color:white;border-bottom-color:#86efac;}
+.progress-mini{margin-left:auto;display:flex;align-items:center;gap:10px;padding-left:16px;border-left:1px solid rgba(255,255,255,0.15);}
+.progress-mini-track{width:80px;height:5px;background:rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;}
+.progress-mini-bar{height:100%;background:#86efac;border-radius:100px;transition:width 0.4s;width:0%;}
+.progress-mini-label{font-size:12px;font-weight:600;color:#86efac;white-space:nowrap;}
+
+/* PAGES */
+.page{display:none;max-width:960px;margin:0 auto;padding:48px 24px 100px;}
+.page.active{display:block;}
+
+/* ======================== OVERVIEW ======================== */
+.hero{margin-bottom:48px;}
+.hero-pill{background:var(--green);color:white;font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border-radius:100px;display:inline-block;margin-bottom:18px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;line-height:1.05;margin-bottom:14px;}
+.hero h1 em{font-style:italic;color:var(--green);}
+.hero-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.65;border-left:3px solid var(--green);padding-left:16px;}
+
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;}
+.ov-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px;}
+.ov-card-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.ov-icon{font-size:24px;}
+.ov-title{font-family:'Playfair Display',serif;font-size:18px;}
+.ov-body{font-size:13px;color:var(--muted);line-height:1.65;}
+.ov-stat{font-family:'Playfair Display',serif;font-size:36px;color:var(--green);display:block;margin-bottom:4px;}
+.ov-stat-label{font-size:12px;color:var(--muted);}
+
+.jd-strip{background:var(--ink);color:white;border-radius:8px;padding:28px 32px;margin-bottom:40px;}
+.jd-strip h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:16px;color:#86efac;}
+.jd-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.jd-col-title{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;}
+.jd-list{list-style:none;}
+.jd-list li{font-size:13px;color:rgba(255,255,255,0.8);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.07);}
+.jd-list li:last-child{border:none;}
+.jd-list li::before{content:'→ ';color:#86efac;font-weight:700;}
+
+.mindset-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:40px;}
+.ms-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:18px;}
+.ms-q{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+.ms-a{font-family:'Playfair Display',serif;font-size:15px;line-height:1.3;}
+
+/* ======================== LEARNING ======================== */
+.learn-progress-wrap{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin-bottom:32px;display:flex;align-items:center;gap:20px;}
+.lp-label{font-size:13px;font-weight:600;white-space:nowrap;}
+.lp-track{flex:1;height:10px;background:var(--bg);border-radius:100px;overflow:hidden;}
+.lp-bar{height:100%;background:var(--green);border-radius:100px;transition:width 0.4s;width:0%;}
+.lp-pct{font-size:20px;font-weight:600;color:var(--green);font-family:'Playfair Display',serif;white-space:nowrap;}
+
+.learn-section{margin-bottom:28px;}
+.ls-head{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:8px 8px 0 0;cursor:pointer;user-select:none;}
+.ls-head.c-green{background:var(--green);color:white;}
+.ls-head.c-blue{background:var(--blue);color:white;}
+.ls-head.c-amber{background:var(--amber);color:white;}
+.ls-head.c-purple{background:var(--purple);color:white;}
+.ls-head.c-orange{background:var(--orange);color:white;}
+.ls-icon{font-size:22px;flex-shrink:0;}
+.ls-meta{flex:1;}
+.ls-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;}
+.ls-strap{font-size:12px;opacity:0.8;margin-top:2px;}
+.ls-count{font-size:12px;font-weight:600;opacity:0.85;white-space:nowrap;}
+.ls-body{background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;}
+.ls-sublabel{padding:12px 20px 4px;font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+
+/* LEARN ITEM */
+.li{display:grid;grid-template-columns:44px 1fr 60px;align-items:start;padding:14px 20px;border-bottom:1px solid #f5f1ea;transition:background 0.15s;gap:4px;}
+.li:last-child{border:none;}
+.li:hover{background:#fafaf7;}
+.li.done{background:#f0faf4;}
+input[type=checkbox]{display:none;}
+.cb{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.2s;background:white;margin-top:2px;}
+.cb:hover{border-color:var(--green);}
+.cb.checked{background:var(--green);border-color:var(--green);}
+.cb.checked::after{content:'✓';color:white;font-size:13px;font-weight:700;}
+.li-body{padding:0 8px;}
+.li-title{font-size:14px;font-weight:500;line-height:1.4;transition:color 0.2s;}
+.li.done .li-title{color:var(--muted);text-decoration:line-through;}
+.li-desc{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.li.done .li-desc{opacity:0.6;}
+.li-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center;}
+.tag{font-size:10px;font-weight:600;letter-spacing:0.08em;padding:2px 8px;border-radius:4px;text-transform:uppercase;}
+.tag-free{background:var(--green-l);color:var(--green);}
+.tag-cert{background:var(--amber-l);color:var(--amber);}
+.tag-must{background:#fde8d8;color:var(--orange);}
+.tag-habit{background:var(--purple-l);color:var(--purple);}
+.link-btn{font-size:11px;font-weight:600;color:var(--blue);text-decoration:none;border:1px solid #bfdbfe;padding:2px 10px;border-radius:4px;background:var(--blue-l);transition:all 0.15s;display:inline-block;}
+.link-btn:hover{background:var(--blue);color:white;border-color:var(--blue);}
+.li-time{font-size:11px;color:var(--muted);text-align:right;padding-top:4px;}
+
+/* ======================== CHECKLIST ======================== */
+.milestone{background:var(--white);border:1px solid var(--border);border-radius:8px;margin-bottom:16px;overflow:hidden;}
+.ms-head-row{display:flex;align-items:center;gap:16px;padding:18px 22px;cursor:pointer;user-select:none;}
+.ms-head-row:hover{background:#fafaf7;}
+.ms-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;flex-shrink:0;color:white;}
+.ms-num.g{background:var(--green);}
+.ms-num.b{background:var(--blue);}
+.ms-num.a{background:var(--amber);}
+.ms-num.p{background:var(--purple);}
+.ms-num.o{background:var(--orange);}
+.ms-num.r{background:var(--red);}
+.ms-info{flex:1;}
+.ms-name{font-weight:600;font-size:15px;}
+.ms-when{font-size:12px;color:var(--muted);margin-top:2px;}
+.ms-progress-wrap{display:flex;align-items:center;gap:8px;}
+.ms-bar-track{width:80px;height:6px;background:var(--bg);border-radius:100px;overflow:hidden;}
+.ms-bar-fill{height:100%;border-radius:100px;transition:width 0.3s;}
+.ms-bar-fill.g{background:var(--green);}
+.ms-bar-fill.b{background:var(--blue);}
+.ms-bar-fill.a{background:var(--amber);}
+.ms-bar-fill.p{background:var(--purple);}
+.ms-bar-fill.o{background:var(--orange);}
+.ms-bar-fill.r{background:var(--red);}
+.ms-bar-pct{font-size:12px;font-weight:600;color:var(--muted);width:32px;}
+.ms-chevron{font-size:12px;color:var(--muted);transition:transform 0.2s;}
+.ms-body{border-top:1px solid var(--border);padding:0;}
+.ms-body.hidden{display:none;}
+.subtask{display:flex;align-items:flex-start;gap:14px;padding:13px 22px;border-bottom:1px solid #f5f1ea;}
+.subtask:last-child{border:none;}
+.subtask.done{background:#f0faf4;}
+.subtask-cb{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:2px;transition:all 0.2s;}
+.subtask-cb:hover{border-color:var(--green);}
+.subtask-cb.checked{background:var(--green);border-color:var(--green);}
+.subtask-cb.checked::after{content:'✓';color:white;font-size:11px;font-weight:700;}
+.subtask-content{}
+.subtask-title{font-size:13.5px;font-weight:500;line-height:1.4;}
+.subtask.done .subtask-title{color:var(--muted);text-decoration:line-through;}
+.subtask-detail{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.subtask-evidence{font-size:11px;background:var(--amber-l);color:var(--amber);padding:2px 8px;border-radius:4px;display:inline-block;margin-top:5px;font-weight:600;}
+
+/* ======================== REVIEW ======================== */
+.review-intro{background:var(--ink);color:white;border-radius:8px;padding:28px 32px;margin-bottom:32px;}
+.review-intro h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:10px;}
+.review-intro p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;max-width:640px;}
+.review-intro strong{color:#86efac;}
+
+.scorecard{margin-bottom:32px;}
+.scorecard h3{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.score-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.score-area{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.score-criteria{list-style:none;}
+.score-criteria li{font-size:13px;padding:5px 0;border-bottom:1px solid #f5f1ea;line-height:1.45;display:flex;gap:8px;align-items:flex-start;}
+.score-criteria li:last-child{border:none;}
+.score-criteria li .tick{color:var(--green);font-weight:700;flex-shrink:0;}
+.score-criteria li .cross{color:var(--red);font-weight:700;flex-shrink:0;}
+.score-criteria li.evidence{color:var(--muted);}
+
+.behaviour-table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:13px;margin-bottom:32px;}
+.behaviour-table thead tr{background:var(--ink);color:white;}
+.behaviour-table th{padding:12px 16px;text-align:left;font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;}
+.behaviour-table td{padding:11px 16px;border-bottom:1px solid #f0ede6;vertical-align:top;line-height:1.5;}
+.behaviour-table tr:last-child td{border:none;}
+.behaviour-table tr:nth-child(even) td{background:#fbf9f5;}
+.bad{color:var(--red);}
+.good{color:var(--green);font-weight:500;}
+
+.closing{background:var(--green);color:white;border-radius:8px;padding:28px 32px;margin-top:32px;}
+.closing p{font-size:15px;line-height:1.75;}
+.closing strong{font-weight:700;}
+
+/* UTILS */
+.section-title-row{display:flex;align-items:baseline;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--border);}
+.sn{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--muted);}
+.st{font-family:'Playfair Display',serif;font-size:24px;}
+
+@media(max-width:640px){
+  .overview-grid,.jd-cols,.mindset-row,.score-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:32px;}
+  .topbar{padding:0 12px;overflow-x:auto;}
+  .tab-btn{padding:16px 12px;font-size:12px;}
+  .progress-mini{display:none;}
+  .page{padding:32px 16px 80px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <div class="topbar-brand">Josie · <em>Cosy</em></div>
+  <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+  <button class="tab-btn" onclick="showTab('learning')">Learning Ramp</button>
+  <button class="tab-btn" onclick="showTab('checklist')">90-Day Checklist</button>
+  <button class="tab-btn" onclick="showTab('review')">Manager Review</button>
+  <div class="progress-mini">
+    <div class="progress-mini-track"><div class="progress-mini-bar" id="miniBar"></div></div>
+    <div class="progress-mini-label" id="miniPct">0%</div>
+  </div>
+</nav>
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="page active" id="page-overview">
+  <div class="hero">
+    <div class="hero-pill">Cosy Direct · April 2026</div>
+    <h1>Your 90 days.<br><em>Make them count.</em></h1>
+    <p class="hero-sub">This is your complete guide to the role — what it asks for, how to learn it, what to tick off, and how to walk into your 90-day review with proof that you've earned a permanent position.</p>
+  </div>
+
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="ov-card-top"><div class="ov-icon">📧</div><div class="ov-title">Email is the whole job</div></div>
+      <div class="ov-body">Klaviyo sits at the heart of this role. Everything else — PPC, SEO, social, website — is support activity. Nail email first. If you spread yourself across five things in month one and email is average, you're in trouble.</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-top"><div class="ov-icon">✍️</div><div class="ov-title">Writing is your superpower</div></div>
+      <div class="ov-body">Cosy explicitly said "writes well — clearly, accurately, without waffle — this one really matters." Every email, every report, every Slack message is being evaluated against that. Treat everything you write as a sample of your work.</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-top"><div class="ov-icon">📊</div><div class="ov-title">Know your numbers</div></div>
+      <div class="ov-body">Open rate benchmark: 35–45%. Click rate: 2–5%. Revenue per recipient is the number that matters most. Know Cosy's baseline on day one — then beat it every month. Numbers are your proof at the 90-day review.</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-top"><div class="ov-icon">🔥</div><div class="ov-title">Proactivity wins the role</div></div>
+      <div class="ov-body">Cosy used the word "proactive" explicitly. The person you're covering was presumably reactive. If you flag things before being asked and bring ideas unprompted, you look completely different to whoever they had before.</div>
+    </div>
+  </div>
+
+  <div class="jd-strip">
+    <h3>What the role actually asks for</h3>
+    <div class="jd-cols">
+      <div>
+        <div class="jd-col-title">Core responsibilities</div>
+        <ul class="jd-list">
+          <li>Plan, build and send email campaigns</li>
+          <li>Manage lists, segments and automations in Klaviyo</li>
+          <li>Write email copy — clearly, without waffle</li>
+          <li>Report on opens, clicks, conversions, revenue</li>
+          <li>Grow the list through sign-up optimisation</li>
+          <li>A/B test subject lines, send times, content</li>
+          <li>Build and refine automated flows</li>
+          <li>Support PPC — monitor, manage, report</li>
+          <li>Website housekeeping — prices, product info</li>
+          <li>SEO — product descriptions and meta info</li>
+          <li>Analytics — understand and report on behaviour</li>
+          <li>Social media — content, scheduling, community</li>
+        </ul>
+      </div>
+      <div>
+        <div class="jd-col-title">What they really want in a person</div>
+        <ul class="jd-list">
+          <li>Detail-obsessed — spots things others miss</li>
+          <li>Writes well: clearly, accurately, no waffle</li>
+          <li>Proactive — flags problems before being asked</li>
+          <li>Organised — manages multiple things at once</li>
+          <li>Comfortable learning new tools fast</li>
+          <li>Team player but happy working independently</li>
+          <li>Interested in email, digital tech, e-commerce</li>
+        </ul>
+        <div class="jd-col-title" style="margin-top:16px;">What would end the trial early</div>
+        <ul class="jd-list">
+          <li>Waiting to be told what to do</li>
+          <li>Sloppy copy — typos, vague writing</li>
+          <li>Not knowing the metrics</li>
+          <li>Going quiet when something isn't working</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title-row"><span class="sn">iii.</span><span class="st">The right mindset</span></div>
+  <div class="mindset-row">
+    <div class="ms-card"><div class="ms-q">Don't ask</div><div class="ms-a">"What should I send?"</div></div>
+    <div class="ms-card"><div class="ms-q">Ask instead</div><div class="ms-a">"What does this customer need right now?"</div></div>
+    <div class="ms-card"><div class="ms-q">Don't celebrate</div><div class="ms-a">sending an email</div></div>
+    <div class="ms-card"><div class="ms-q">Celebrate</div><div class="ms-a">an email that made someone buy</div></div>
+  </div>
+</div>
+
+<!-- ==================== LEARNING ==================== -->
+<div class="page" id="page-learning">
+  <div class="section-title-row"><span class="sn">i.</span><span class="st">Your Learning Ramp</span></div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:24px;max-width:580px;">Every skill in the role mapped to a real course — free, certified, sequenced in the right order. Tick off as you go. Your progress carries across all tabs.</p>
+
+  <div class="learn-progress-wrap">
+    <div class="lp-label">Learning progress</div>
+    <div class="lp-track"><div class="lp-bar" id="learnBar"></div></div>
+    <div class="lp-pct" id="learnPct">0%</div>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="learn-section">
+    <div class="ls-head c-green" onclick="toggleLearn(this)">
+      <div class="ls-icon">📧</div>
+      <div class="ls-meta"><div class="ls-title">Email Marketing & Klaviyo</div><div class="ls-strap">Start here. This is the core of the role.</div></div>
+      <div class="ls-count" id="lc-email">0/9</div>
+    </div>
+    <div class="ls-body" id="lb-email">
+      <div class="ls-sublabel">Week 1 — Start immediately</div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo: Getting Started — Campaigns</div><div class="li-desc">The official beginner course. Dashboard, building your first email, sending to a list. Do this on day one.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Certificate</span><span class="tag tag-must">Must Do</span><a class="link-btn" href="https://academy.klaviyo.com/en-us/collections/getting-started-with-klaviyo" target="_blank">→ Klaviyo Academy</a></div></div><div class="li-time">~2 hrs</div></div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo: Getting Started — Flows</div><div class="li-desc">Flow basics and building automated sequences. The highest-revenue skill in the role — sets once, runs forever.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Certificate</span><span class="tag tag-must">Must Do</span><a class="link-btn" href="https://academy.klaviyo.com/en-us/collections/getting-started-with-klaviyo" target="_blank">→ Klaviyo Academy</a></div></div><div class="li-time">~2 hrs</div></div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo: Sign-up Forms & List Growth</div><div class="li-desc">How to capture subscribers and grow the list — a specific task in the JD.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-must">Must Do</span><a class="link-btn" href="https://academy.klaviyo.com/en-us/collections/getting-started-with-klaviyo" target="_blank">→ Klaviyo Academy</a></div></div><div class="li-time">~1 hr</div></div>
+      <div class="ls-sublabel">Week 2–3 — Go deeper</div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo Practitioner Certificate</div><div class="li-desc">The full platform certification — segmentation, flows, campaigns, analytics, deliverability. This is the one to put on your CV.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Official Cert</span><span class="tag tag-must">Must Do</span><a class="link-btn" href="https://academy.klaviyo.com/en-us" target="_blank">→ Klaviyo Academy</a></div></div><div class="li-time">~4 hrs</div></div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo Mastery 3.0 — Udemy</div><div class="li-desc">Free deep-dive on flows, AI tools, campaign strategy and list building. Do after the Academy basics.</div><div class="li-meta"><span class="tag tag-free">Free</span><a class="link-btn" href="https://www.udemy.com/course/the-complete-klaviyo-email-marketing-course-for-e-commerce/" target="_blank">→ Udemy</a></div></div><div class="li-time">~3 hrs</div></div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo AI for Marketing Course</div><div class="li-desc">How to use AI tools to generate copy, optimise flows and speed up production. Practical, not theoretical.</div><div class="li-meta"><span class="tag tag-free">Free</span><a class="link-btn" href="https://academy.klaviyo.com/en-us" target="_blank">→ Klaviyo Academy</a></div></div><div class="li-time">~2 hrs</div></div>
+      <div class="ls-sublabel">Ongoing habits</div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Really Good Emails — daily reading</div><div class="li-desc">The best library of real email examples. Study 2–3 per day. Note what made you want to click and why. Build a swipe file.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-habit">Daily Habit</span><a class="link-btn" href="https://reallygoodemails.com" target="_blank">→ reallygoodemails.com</a></div></div><div class="li-time">Daily</div></div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Klaviyo Email Best Practices Guide</div><div class="li-desc">Klaviyo's own guidance on list health, send frequency, deliverability and optimisation. Read in week one.</div><div class="li-meta"><span class="tag tag-free">Free</span><a class="link-btn" href="https://www.klaviyo.com/products/email-marketing" target="_blank">→ Klaviyo.com</a></div></div><div class="li-time">~1 hr</div></div>
+      <div class="li" data-lsec="email"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Subscribe to 5 education/retail brand emails</div><div class="li-desc">Sign up to competitors. Analyse every email — subject line, timing, structure, CTA. Build a swipe file of what works.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-habit">Ongoing</span></div></div><div class="li-time">Ongoing</div></div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="learn-section">
+    <div class="ls-head c-blue" onclick="toggleLearn(this)">
+      <div class="ls-icon">📊</div>
+      <div class="ls-meta"><div class="ls-title">Analytics & Data</div><div class="ls-strap">GA4 — you can't improve what you can't measure</div></div>
+      <div class="ls-count" id="lc-analytics">0/4</div>
+    </div>
+    <div class="ls-body" id="lb-analytics">
+      <div class="ls-sublabel">Week 2</div>
+      <div class="li" data-lsec="analytics"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Google Analytics 4 — Official Certification</div><div class="li-desc">Google's free GA4 course. 4–5 hours, official Google certification. Covers setup, reports, events and conversions.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Google Cert</span><span class="tag tag-must">Must Do</span><a class="link-btn" href="https://skillshop.withgoogle.com/" target="_blank">→ Google Skillshop</a></div></div><div class="li-time">~5 hrs</div></div>
+      <div class="li" data-lsec="analytics"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">GA4 Fundamentals — Analytics Mania</div><div class="li-desc">90-min video course with certificate. Clearer and faster than Skillshop for getting the basics. Do this first if GA4 feels overwhelming.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Certificate</span><a class="link-btn" href="https://www.analyticsmania.com/courses/free-google-analytics-fundamentals-course/" target="_blank">→ Analytics Mania</a></div></div><div class="li-time">~90 min</div></div>
+      <div class="li" data-lsec="analytics"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Get read access to Cosy's GA4 account</div><div class="li-desc">Ask your manager on day one. Find the acquisition report, behaviour report, and e-commerce conversions. Make notes on what you see — patterns, surprises, gaps.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">Day 1</div></div>
+      <div class="li" data-lsec="analytics"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Build a weekly email metrics tracker</div><div class="li-desc">Create a Google Sheet logging: open rate, click rate, revenue per email, unsubscribes — weekly. This becomes your proof of improvement at the 90-day review.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">Week 2</div></div>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="learn-section">
+    <div class="ls-head c-amber" onclick="toggleLearn(this)">
+      <div class="ls-icon">🔍</div>
+      <div class="ls-meta"><div class="ls-title">SEO & Content Writing</div><div class="ls-strap">Product descriptions, meta info, how Google ranks pages</div></div>
+      <div class="ls-count" id="lc-seo">0/4</div>
+    </div>
+    <div class="ls-body" id="lb-seo">
+      <div class="ls-sublabel">Week 3–4</div>
+      <div class="li" data-lsec="seo"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">HubSpot SEO Certification Course</div><div class="li-desc">Free, ~4 hrs, 26 videos. Best structured beginner SEO cert. Covers keyword research, on-page SEO, link building, measurement. Recognised by employers.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Certificate</span><span class="tag tag-must">Must Do</span><a class="link-btn" href="https://academy.hubspot.com/courses/seo-training" target="_blank">→ HubSpot Academy</a></div></div><div class="li-time">~4 hrs</div></div>
+      <div class="li" data-lsec="seo"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Semrush SEO Fundamentals</div><div class="li-desc">Free with certificate. Deeper on keyword research and on-page SEO — directly relevant to writing product descriptions for Cosy.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Certificate</span><a class="link-btn" href="https://www.semrush.com/academy/courses/seo/" target="_blank">→ Semrush Academy</a></div></div><div class="li-time">~3 hrs</div></div>
+      <div class="li" data-lsec="seo"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Audit Cosy's top 10 product pages critically</div><div class="li-desc">For each: Is the title keyword-rich? Does the description sell the benefit or just describe the product? How's the meta description? Write your observations — don't send them yet, just understand the gap.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">2 hrs</div></div>
+      <div class="li" data-lsec="seo"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Write 3 optimised product descriptions</div><div class="li-desc">Pick 3 weak product pages. Rewrite each: lead with benefit, include search term naturally, clear and specific. Show your manager for feedback. This is an early, tangible win.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">Week 4</div></div>
+    </div>
+  </div>
+
+  <!-- PPC -->
+  <div class="learn-section">
+    <div class="ls-head c-purple" onclick="toggleLearn(this)">
+      <div class="ls-icon">💰</div>
+      <div class="ls-meta"><div class="ls-title">PPC & Google Ads</div><div class="ls-strap">Support role — understand it, don't own it yet</div></div>
+      <div class="ls-count" id="lc-ppc">0/3</div>
+    </div>
+    <div class="ls-body" id="lb-ppc">
+      <div class="ls-sublabel">Week 4–6</div>
+      <div class="li" data-lsec="ppc"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Google Ads Search Certification — Skillshop</div><div class="li-desc">Google's official free certification. Covers keywords, bidding, ad copy, campaign structure. Gives you the knowledge to monitor and report properly.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Google Cert</span><a class="link-btn" href="https://skillshop.withgoogle.com/googleads/" target="_blank">→ Google Skillshop</a></div></div><div class="li-time">~3 hrs</div></div>
+      <div class="li" data-lsec="ppc"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Google Shopping Ads Certification</div><div class="li-desc">Cosy sells physical products so Shopping Ads (image/price listings) are likely core to the PPC strategy. Learn how these work specifically.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Google Cert</span><a class="link-btn" href="https://skillshop.withgoogle.com/googleads/" target="_blank">→ Google Skillshop</a></div></div><div class="li-time">~2 hrs</div></div>
+      <div class="li" data-lsec="ppc"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Get read access to Google Ads account</div><div class="li-desc">Ask your manager. Find impressions, clicks, CTR, cost-per-click, conversions. Don't touch anything — understand what you're looking at and ask questions about what's performing.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">Week 5</div></div>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="learn-section">
+    <div class="ls-head c-orange" onclick="toggleLearn(this)">
+      <div class="ls-icon">📱</div>
+      <div class="ls-meta"><div class="ls-title">Social Media</div><div class="ls-strap">Content, scheduling, community — supporting role</div></div>
+      <div class="ls-count" id="lc-social">0/4</div>
+    </div>
+    <div class="ls-body" id="lb-social">
+      <div class="ls-sublabel">Weeks 1–3 alongside everything else</div>
+      <div class="li" data-lsec="social"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">HubSpot Social Media Marketing Certification</div><div class="li-desc">Free, certified, well-structured. Covers strategy, content creation, scheduling and engagement. Business social is very different to personal — this bridges the gap.</div><div class="li-meta"><span class="tag tag-free">Free</span><span class="tag tag-cert">Certificate</span><a class="link-btn" href="https://academy.hubspot.com/courses/social-media" target="_blank">→ HubSpot Academy</a></div></div><div class="li-time">~4 hrs</div></div>
+      <div class="li" data-lsec="social"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Audit Cosy's social channels</div><div class="li-desc">Look at Instagram, Facebook, LinkedIn. What's performing? What format gets most engagement? What's the tone of voice? What's missing? Write a one-page observation for yourself.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">2 hrs</div></div>
+      <div class="li" data-lsec="social"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Learn Canva — social design basics</div><div class="li-desc">Canva is likely what Cosy uses for social graphics. Free plan is more than enough. Learn to create posts sized correctly for each platform. Canva has free tutorials built in.</div><div class="li-meta"><span class="tag tag-free">Free</span><a class="link-btn" href="https://www.canva.com/designschool/" target="_blank">→ Canva Design School</a></div></div><div class="li-time">~2 hrs</div></div>
+      <div class="li" data-lsec="social"><div class="cb" onclick="tickLearn(this)"></div><div class="li-body"><div class="li-title">Draft one month of social content ideas</div><div class="li-desc">3 posts per week across relevant channels, mapped to the school calendar. Show your manager for review. Don't wait to be asked — bring it as an initiative.</div><div class="li-meta"><span class="tag tag-must">Practical Task</span></div></div><div class="li-time">Week 3</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHECKLIST ==================== -->
+<div class="page" id="page-checklist">
+  <div class="section-title-row"><span class="sn">ii.</span><span class="st">90-Day Success Checklist</span></div>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:28px;max-width:600px;">6 milestone areas, each with expandable sub-tasks. The evidence items are what you bring to your 90-day review. Every tick is a data point in your case for a permanent role.</p>
+
+  <!-- M1 -->
+  <div class="milestone" id="m1">
+    <div class="ms-head-row" onclick="toggleMilestone('m1')">
+      <div class="ms-num g">1</div>
+      <div class="ms-info"><div class="ms-name">Klaviyo — Platform Ownership</div><div class="ms-when">Days 1–30 · The most important milestone</div></div>
+      <div class="ms-progress-wrap"><div class="ms-bar-track"><div class="ms-bar-fill g" id="mb1" style="width:0%"></div></div><div class="ms-bar-pct" id="mp1">0%</div></div>
+      <div class="ms-chevron" id="mc1">▼</div>
+    </div>
+    <div class="ms-body" id="mb-m1">
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Complete Klaviyo Academy Getting Started courses (Campaigns + Flows + Forms)</div><div class="subtask-detail">All three courses completed within week one. Don't skip — do them in order.</div><div class="subtask-evidence">Evidence: screenshot of completions</div></div></div>
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Earn the Klaviyo Practitioner Certificate</div><div class="subtask-detail">The full platform cert. Target: done by end of week three.</div><div class="subtask-evidence">Evidence: certificate to show manager</div></div></div>
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Audit every existing flow — document what's live, what's broken, what's missing</div><div class="subtask-detail">Walk through every flow in the account. Note trigger, number of emails, last edited, open rate. Create a one-page summary.</div><div class="subtask-evidence">Evidence: your audit document</div></div></div>
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Record baseline metrics on day one</div><div class="subtask-detail">Open rate, click rate, revenue per recipient, list size, unsubscribe rate. These are your starting point — everything you improve from here is your story.</div><div class="subtask-evidence">Evidence: metrics baseline document</div></div></div>
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Rebuild or significantly improve the Welcome Series flow</div><div class="subtask-detail">The first impression every new subscriber gets. Review what's there, identify weaknesses, rewrite copy, tighten timing.</div><div class="subtask-evidence">Evidence: before/after screenshots + open rate comparison</div></div></div>
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Rebuild or significantly improve the Abandoned Cart flow</div><div class="subtask-detail">The highest-revenue flow for any e-commerce business. If it's broken, fix it. If it's weak, improve it. Three emails minimum: 30 min, 24 hrs, 72 hrs.</div><div class="subtask-evidence">Evidence: flow screenshot + revenue attributed</div></div></div>
+      <div class="subtask" data-ms="m1"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Build or improve the Post-Purchase flow</div><div class="subtask-detail">Thank you, care tips, review request, related products. Turns a transaction into a relationship.</div><div class="subtask-evidence">Evidence: flow live and sending</div></div></div>
+    </div>
+  </div>
+
+  <!-- M2 -->
+  <div class="milestone" id="m2">
+    <div class="ms-head-row" onclick="toggleMilestone('m2')">
+      <div class="ms-num b">2</div>
+      <div class="ms-info"><div class="ms-name">Campaigns — Planning & Execution</div><div class="ms-when">Days 14–60</div></div>
+      <div class="ms-progress-wrap"><div class="ms-bar-track"><div class="ms-bar-fill b" id="mb2" style="width:0%"></div></div><div class="ms-bar-pct" id="mp2">0%</div></div>
+      <div class="ms-chevron" id="mc2">▼</div>
+    </div>
+    <div class="ms-body hidden" id="mb-m2">
+      <div class="subtask" data-ms="m2"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Send at least 4 segmented campaigns in 90 days</div><div class="subtask-detail">Not blasted to the whole list. Segmented by at least: new vs. repeat vs. lapsed. Write the copy yourself.</div><div class="subtask-evidence">Evidence: campaign reports showing open/click/revenue</div></div></div>
+      <div class="subtask" data-ms="m2"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Run at least 2 A/B tests on subject lines</div><div class="subtask-detail">Test a hypothesis: short vs. long, question vs. statement, personal vs. product-led. Document what you tested and what won.</div><div class="subtask-evidence">Evidence: test results + what you learned</div></div></div>
+      <div class="subtask" data-ms="m2"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Build a school calendar campaign plan for Q3/Q4</div><div class="subtask-detail">Map back-to-school, new term, EYFS season, Christmas craft period. 4 weeks of planned campaigns minimum. Show your manager — this demonstrates strategic thinking.</div><div class="subtask-evidence">Evidence: the forward calendar document</div></div></div>
+      <div class="subtask" data-ms="m2"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Set up proper segmentation structure across the list</div><div class="subtask-detail">At minimum: new subscribers (0–30 days), active customers, lapsed (60+ days no purchase), VIPs (top 20% by spend). Document the logic.</div><div class="subtask-evidence">Evidence: segment list with sizes and criteria</div></div></div>
+    </div>
+  </div>
+
+  <!-- M3 -->
+  <div class="milestone" id="m3">
+    <div class="ms-head-row" onclick="toggleMilestone('m3')">
+      <div class="ms-num a">3</div>
+      <div class="ms-info"><div class="ms-name">Analytics & Reporting</div><div class="ms-when">Days 7–90 · Weekly rhythm</div></div>
+      <div class="ms-progress-wrap"><div class="ms-bar-track"><div class="ms-bar-fill a" id="mb3" style="width:0%"></div></div><div class="ms-bar-pct" id="mp3">0%</div></div>
+      <div class="ms-chevron" id="mc3">▼</div>
+    </div>
+    <div class="ms-body hidden" id="mb-m3">
+      <div class="subtask" data-ms="m3"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Complete GA4 certification (Google Skillshop)</div><div class="subtask-detail">Official Google cert. Do by end of week two.</div><div class="subtask-evidence">Evidence: Google certificate</div></div></div>
+      <div class="subtask" data-ms="m3"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Deliver weekly email metrics report every week for 90 days</div><div class="subtask-detail">Every Friday, without being asked. Open rate, click rate, RPR, list growth, unsubscribes. One page. Clear. On time.</div><div class="subtask-evidence">Evidence: 12 weekly reports on file</div></div></div>
+      <div class="subtask" data-ms="m3"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Demonstrate measurable improvement in at least one key metric</div><div class="subtask-detail">Open rate up, click rate up, RPR up, list grown. Any one of these. Show the before and after with the reason why.</div><div class="subtask-evidence">Evidence: before/after chart</div></div></div>
+      <div class="subtask" data-ms="m3"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Attribute a specific revenue figure to email activity</div><div class="subtask-detail">Klaviyo shows revenue per flow and per campaign. Pull the total. Know your number. "Email generated £X in 90 days" is the most powerful thing you can say at review.</div><div class="subtask-evidence">Evidence: Klaviyo revenue attribution screenshot</div></div></div>
+    </div>
+  </div>
+
+  <!-- M4 -->
+  <div class="milestone" id="m4">
+    <div class="ms-head-row" onclick="toggleMilestone('m4')">
+      <div class="ms-num p">4</div>
+      <div class="ms-info"><div class="ms-name">SEO, Website & Content</div><div class="ms-when">Days 21–60</div></div>
+      <div class="ms-progress-wrap"><div class="ms-bar-track"><div class="ms-bar-fill p" id="mb4" style="width:0%"></div></div><div class="ms-bar-pct" id="mp4">0%</div></div>
+      <div class="ms-chevron" id="mc4">▼</div>
+    </div>
+    <div class="ms-body hidden" id="mb-m4">
+      <div class="subtask" data-ms="m4"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Complete HubSpot SEO Certification</div><div class="subtask-detail">Free, employer-recognised. Done by week four.</div><div class="subtask-evidence">Evidence: HubSpot certificate</div></div></div>
+      <div class="subtask" data-ms="m4"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Write and publish at least 5 optimised product descriptions</div><div class="subtask-detail">Benefit-led, keyword-rich, clear meta description. Manager-reviewed and live on the site.</div><div class="subtask-evidence">Evidence: live product pages + your original drafts</div></div></div>
+      <div class="subtask" data-ms="m4"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Complete at least 3 website housekeeping tasks</div><div class="subtask-detail">Prices updated, product info corrected, content refreshed. Small tasks done without being asked.</div><div class="subtask-evidence">Evidence: task log with dates</div></div></div>
+    </div>
+  </div>
+
+  <!-- M5 -->
+  <div class="milestone" id="m5">
+    <div class="ms-head-row" onclick="toggleMilestone('m5')">
+      <div class="ms-num o">5</div>
+      <div class="ms-info"><div class="ms-name">Social Media & PPC Support</div><div class="ms-when">Days 14–90</div></div>
+      <div class="ms-progress-wrap"><div class="ms-bar-track"><div class="ms-bar-fill o" id="mb5" style="width:0%"></div></div><div class="ms-bar-pct" id="mp5">0%</div></div>
+      <div class="ms-chevron" id="mc5">▼</div>
+    </div>
+    <div class="ms-body hidden" id="mb-m5">
+      <div class="subtask" data-ms="m5"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Complete HubSpot Social Media Certification</div><div class="subtask-detail">Free cert. Done by week three.</div><div class="subtask-evidence">Evidence: certificate</div></div></div>
+      <div class="subtask" data-ms="m5"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Produce and schedule at least 8 social posts</div><div class="subtask-detail">Manager-approved and live on Cosy's channels. Mix of formats — image, copy, product. Show engagement data where possible.</div><div class="subtask-evidence">Evidence: posts live + engagement stats</div></div></div>
+      <div class="subtask" data-ms="m5"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Complete Google Ads Search Certification</div><div class="subtask-detail">Free via Skillshop. Done by week six.</div><div class="subtask-evidence">Evidence: Google certificate</div></div></div>
+      <div class="subtask" data-ms="m5"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Produce at least 2 PPC performance reports</div><div class="subtask-detail">Impressions, clicks, CTR, CPC, conversions. Formatted, on time, with your own observations on what's working.</div><div class="subtask-evidence">Evidence: the reports</div></div></div>
+    </div>
+  </div>
+
+  <!-- M6 -->
+  <div class="milestone" id="m6">
+    <div class="ms-head-row" onclick="toggleMilestone('m6')">
+      <div class="ms-num r">6</div>
+      <div class="ms-info"><div class="ms-name">Proactivity & Initiative — The Differentiator</div><div class="ms-when">Days 1–90 · What gets you kept on</div></div>
+      <div class="ms-progress-wrap"><div class="ms-bar-track"><div class="ms-bar-fill r" id="mb6" style="width:0%"></div></div><div class="ms-bar-pct" id="mp6">0%</div></div>
+      <div class="ms-chevron" id="mc6">▼</div>
+    </div>
+    <div class="ms-body hidden" id="mb-m6">
+      <div class="subtask" data-ms="m6"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Identify and fix one thing nobody asked you to fix</div><div class="subtask-detail">A broken flow, a weak product page, a missed segment, a social gap. Find it yourself, fix it yourself, report it. This is the single most powerful thing you can do.</div><div class="subtask-evidence">Evidence: before/after + explanation of why you did it</div></div></div>
+      <div class="subtask" data-ms="m6"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Never miss a weekly report deadline in 90 days</div><div class="subtask-detail">Simple. Every Friday. Without being asked. This builds trust faster than any individual piece of work.</div><div class="subtask-evidence">Evidence: 12 consecutive weekly reports</div></div></div>
+      <div class="subtask" data-ms="m6"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Flag a problem before your manager spots it</div><div class="subtask-detail">A metric dropping, a flow breaking, a campaign underperforming. Spot it first. Bring the problem and your proposed solution at the same time.</div><div class="subtask-evidence">Evidence: the specific example with dates</div></div></div>
+      <div class="subtask" data-ms="m6"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Bring at least 3 unprompted ideas in 90 days</div><div class="subtask-detail">A new flow idea, a campaign concept, a content series, a segmentation approach. Doesn't matter if they say no — the habit of bringing ideas is what matters.</div><div class="subtask-evidence">Evidence: your idea log with manager responses</div></div></div>
+      <div class="subtask" data-ms="m6"><div class="subtask-cb" onclick="tickSub(this)"></div><div class="subtask-content"><div class="subtask-title">Build your personal evidence file throughout the 90 days</div><div class="subtask-detail">Screenshots, reports, before/afters, compliments, results. Don't wait until day 88. Build it weekly. This is what you present at the review.</div><div class="subtask-evidence">Evidence: the file itself</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== REVIEW ==================== -->
+<div class="page" id="page-review">
+  <div class="review-intro">
+    <h2>Your 90-Day Manager Review Pack</h2>
+    <p>This is what you walk in with. Not nerves. Not hope. <strong>Evidence.</strong> Every section below is a story you can tell, backed by something you can show. The goal isn't to survive the review — it's to make the decision to keep you permanent feel obvious.</p>
+  </div>
+
+  <div class="scorecard">
+    <h3>The 100% success criteria — what "nailed it" looks like</h3>
+    <div class="score-grid">
+      <div class="score-card">
+        <div class="score-area">📧 Email & Klaviyo</div>
+        <ul class="score-criteria">
+          <li><span class="tick">✓</span> Klaviyo Practitioner Certificate earned</li>
+          <li><span class="tick">✓</span> All 3 core flows live, tested and improving</li>
+          <li><span class="tick">✓</span> 4+ segmented campaigns sent</li>
+          <li><span class="tick">✓</span> 2+ A/B tests run with documented learnings</li>
+          <li><span class="tick">✓</span> Open rate at or above 35% benchmark</li>
+          <li><span class="tick">✓</span> Revenue attributed to email: know your number</li>
+          <li><span class="tick">✓</span> Q3/Q4 campaign calendar built and presented</li>
+        </ul>
+      </div>
+      <div class="score-card">
+        <div class="score-area">📊 Analytics & Reporting</div>
+        <ul class="score-criteria">
+          <li><span class="tick">✓</span> GA4 certification complete</li>
+          <li><span class="tick">✓</span> Weekly report delivered every single week</li>
+          <li><span class="tick">✓</span> Baseline metrics documented from day one</li>
+          <li><span class="tick">✓</span> At least one metric measurably improved</li>
+          <li><span class="tick">✓</span> Revenue attribution clearly presented</li>
+        </ul>
+      </div>
+      <div class="score-card">
+        <div class="score-area">🔍 SEO & Website</div>
+        <ul class="score-criteria">
+          <li><span class="tick">✓</span> HubSpot SEO certification complete</li>
+          <li><span class="tick">✓</span> 5+ product descriptions written and live</li>
+          <li><span class="tick">✓</span> 3+ website housekeeping tasks completed</li>
+          <li><span class="tick">✓</span> Initial product page audit completed</li>
+        </ul>
+      </div>
+      <div class="score-card">
+        <div class="score-area">⚡ Initiative & Proactivity</div>
+        <ul class="score-criteria">
+          <li><span class="tick">✓</span> Fixed something nobody asked you to fix</li>
+          <li><span class="tick">✓</span> Flagged a problem before manager spotted it</li>
+          <li><span class="tick">✓</span> Brought 3+ unprompted ideas</li>
+          <li><span class="tick">✓</span> Never missed a report deadline</li>
+          <li><span class="tick">✓</span> Evidence file built throughout — not last minute</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title-row"><span class="sn">ii.</span><span class="st">How to behave in the review itself</span></div>
+  <table class="behaviour-table">
+    <thead><tr><th>Situation</th><th>❌ What most people do</th><th>✓ What gets you the permanent role</th></tr></thead>
+    <tbody>
+      <tr><td>They ask how it's going</td><td class="bad">Say "really good, I'm enjoying it"</td><td class="good">Lead with a result: "Open rate is up from X to Y, here's why"</td></tr>
+      <tr><td>They ask what you've learned</td><td class="bad">List the courses you've done</td><td class="good">Tell them what you did differently because of what you learned</td></tr>
+      <tr><td>They mention something that didn't work</td><td class="bad">Get defensive or apologise repeatedly</td><td class="good">Acknowledge it, explain what you'd do differently, move on</td></tr>
+      <tr><td>They ask about the future</td><td class="bad">Say "I'd love to stay"</td><td class="good">Present your Q3/Q4 plan — show you're already thinking beyond the trial</td></tr>
+      <tr><td>There's a pause</td><td class="bad">Fill it with filler</td><td class="good">Open your evidence file — "can I show you something?"</td></tr>
+      <tr><td>They ask if you have questions</td><td class="bad">"Not really, no"</td><td class="good">Ask what the priorities are for the next six months and how email fits in</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title-row"><span class="sn">iii.</span><span class="st">The one thing to say</span></div>
+  <div class="closing">
+    <p>If you've done the work in this guide, you walk in and say: <strong>"In 90 days, email has generated £[X] in revenue. Here's what I built, what I improved, and what I'd do next."</strong> That's not a person on trial. That's someone who already owns the channel. The review becomes a formality.</p>
+  </div>
+</div>
+
+<script>
+const STORE = 'josie_hub_v2';
+function getState(){ try{ return JSON.parse(localStorage.getItem(STORE)||'{}'); }catch(e){ return {}; } }
+function setState(s){ try{ localStorage.setItem(STORE,JSON.stringify(s)); }catch(e){} }
+
+// TAB
+function showTab(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// LEARN TICKS
+document.querySelectorAll('.cb').forEach((cb,i)=>{
+  const s=getState(); if(s['l'+i]){ cb.classList.add('checked'); cb.closest('.li').classList.add('done'); }
+  cb.dataset.li=i;
+});
+function tickLearn(cb){
+  const item=cb.closest('.li');
+  const isC=cb.classList.toggle('checked');
+  item.classList.toggle('done',isC);
+  const s=getState(); s['l'+cb.dataset.li]=isC; setState(s);
+  updateAll();
+}
+
+// SUBTASK TICKS
+document.querySelectorAll('.subtask-cb').forEach((cb,i)=>{
+  const s=getState(); if(s['s'+i]){ cb.classList.add('checked'); cb.closest('.subtask').classList.add('done'); }
+  cb.dataset.si=i;
+});
+function tickSub(cb){
+  const sub=cb.closest('.subtask');
+  const isC=cb.classList.toggle('checked');
+  sub.classList.toggle('done',isC);
+  const s=getState(); s['s'+cb.dataset.si]=isC; setState(s);
+  updateAll();
+}
+
+// TOGGLE LEARN SECTION
+function toggleLearn(head){
+  const body=head.nextElementSibling;
+  body.style.display=body.style.display==='none'?'':'none';
+}
+
+// TOGGLE MILESTONE
+function toggleMilestone(id){
+  const body=document.getElementById('mb-'+id);
+  const chevron=document.getElementById('mc'+id.replace('m',''));
+  const hidden=body.classList.toggle('hidden');
+  chevron.textContent=hidden?'▼':'▲';
+}
+
+// UPDATE ALL PROGRESS
+function updateAll(){
+  const lSecs=['email','analytics','seo','ppc','social'];
+  let lTotal=0,lDone=0;
+  lSecs.forEach(sec=>{
+    const items=document.querySelectorAll(`[data-lsec="${sec}"]`);
+    const done=document.querySelectorAll(`[data-lsec="${sec}"].done`);
+    lTotal+=items.length; lDone+=done.length;
+    const el=document.getElementById('lc-'+sec);
+    if(el) el.textContent=done.length+'/'+items.length;
+    const bar=document.getElementById('lb-'+sec);
+    // colour bar on learn section head handled by class
+  });
+  const lPct=lTotal?Math.round(lDone/lTotal*100):0;
+  document.getElementById('learnBar').style.width=lPct+'%';
+  document.getElementById('learnPct').textContent=lPct+'%';
+
+  // milestones
+  let mTotal=0,mDone=0;
+  for(let i=1;i<=6;i++){
+    const subs=document.querySelectorAll(`[data-ms="m${i}"]`);
+    const done=document.querySelectorAll(`[data-ms="m${i}"].done`);
+    mTotal+=subs.length; mDone+=done.length;
+    const pct=subs.length?Math.round(done.length/subs.length*100):0;
+    const bar=document.getElementById('mb'+i);
+    const pctEl=document.getElementById('mp'+i);
+    if(bar) bar.style.width=pct+'%';
+    if(pctEl) pctEl.textContent=pct+'%';
+  }
+
+  // mini bar (combined)
+  const total=lTotal+mTotal, done=lDone+mDone;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('miniBar').style.width=pct+'%';
+  document.getElementById('miniPct').textContent=pct+'%';
+}
+
+updateAll();
+</script>
+</body>
+</html>
